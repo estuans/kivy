@@ -320,6 +320,10 @@ class LoaderBase(object):
             # FIXME create a clean API for that
             for imdata in data._data:
                 imdata.source = filename
+                
+        except urllib2.HTTPError:
+            return self.error_image
+            
         except Exception:
             Logger.exception('Failed to load image <%s>' % filename)
             # close file when remote file not found or download error
