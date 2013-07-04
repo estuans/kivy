@@ -23,12 +23,14 @@ from kivy.core import core_select_lib
 from kivy.resources import resource_find
 from kivy.compat import PY2
 
-DEFAULT_FONT = 'DroidSans'
+DEFAULT_FONT = 'Roboto-Regular'
 
 FONT_REGULAR = 0
 FONT_ITALIC = 1
 FONT_BOLD = 2
 FONT_BOLDITALIC = 3
+FONT_THIN = 4
+FONT_THINITALIC = 5
 
 
 class LabelBase(object):
@@ -51,10 +53,8 @@ class LabelBase(object):
             Font size of the text
         `font_name`: str, default to DEFAULT_FONT
             Font name of the text
-        `bold`: bool, default to False
-            Activate "bold" text style
-        `italic`: bool, default to False
-            Activate "italic" text style
+        `font_weight`: str, default to "regular"
+            Set font variant, e.g. 'bold','italic'
         `text_size`: tuple, default to (None, None)
             Add constraint to render the text (inside a bounding box)
             If no size is given, the label size will be set to the text size.
@@ -88,12 +88,12 @@ class LabelBase(object):
     _texture_1px = None
 
     def __init__(self, text='', font_size=12, font_name=DEFAULT_FONT,
-                 bold=False, italic=False, halign='left', valign='bottom',
+                 font_weight='Regular', halign='left', valign='bottom',
                  shorten=False, text_size=None, mipmap=False, color=None,
                  line_height=1.0, **kwargs):
 
         options = {'text': text, 'font_size': font_size,
-            'font_name': font_name, 'bold': bold, 'italic': italic,
+            'font_name': font_name, 'font_weight': font_weight,
             'halign': halign, 'valign': valign, 'shorten': shorten,
             'mipmap': mipmap, 'line_height': line_height}
 
@@ -127,7 +127,7 @@ class LabelBase(object):
 
     @staticmethod
     def register(name, fn_regular, fn_italic=None, fn_bold=None,
-            fn_bolditalic=None):
+            fn_bolditalic=None, fn_thin=None, fn_thinitalic=None):
         '''Register an alias for a Font.
 
         .. versionadded:: 1.1.0
@@ -144,7 +144,7 @@ class LabelBase(object):
 
         fonts = []
 
-        for font_type in fn_regular, fn_italic, fn_bold, fn_bolditalic:
+        for font_type in fn_regular, fn_italic, fn_bold, fn_bolditalic, fn_thin, fn_thinitalic:
             if font_type is not None:
                 font = resource_find(font_type)
 
@@ -166,13 +166,7 @@ class LabelBase(object):
         # is the font is registered ?
         if fontname in fonts:
             # return the prefered font for the current bold/italic combinaison
-            italic = int(options['italic'])
-            if options['bold']:
-                bold = FONT_BOLD
-            else:
-                bold = FONT_REGULAR
-
-            options['font_name_r'] = fonts[fontname][italic | bold]
+            options['font_name_r'] = fonts[fontname][options['font_weight']]
 
         elif fontname in fontscache:
             options['font_name_r'] = fontscache[fontname]
@@ -504,7 +498,7 @@ class LabelBase(object):
     def fontid(self):
         '''Return an uniq id for all font parameters'''
         return str([self.options[x] for x in (
-            'font_size', 'font_name_r', 'bold', 'italic')])
+            'font_size', 'font_name_r', 'font_weight')])
 
     def _get_text_size(self):
         return self._text_size
@@ -527,9 +521,11 @@ Label = core_select_lib('text', (
 
 # For the first initalization, register the default font
 if 'KIVY_DOC' not in os.environ:
-    Label.register('DroidSans',
-        'data/fonts/DroidSans.ttf',
-        'data/fonts/DroidSans-Italic.ttf',
-        'data/fonts/DroidSans-Bold.ttf',
-        'data/fonts/DroidSans-BoldItalic.ttf')
+    Label.register('Roboto',
+        'data/fonts/Roboto-Regular.ttf',
+        'data/fonts/Roboto-Italic.ttf',
+        'data/fonts/Roboto-Bold.ttf',
+        'data/fonts/Roboto-BoldItalic.ttf',
+		'data/fonts/Roboto-Thin.ttf',
+		'data/fonts/Roboto-ThinItalic.ttf',)
 

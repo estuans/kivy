@@ -119,7 +119,7 @@ class Label(Widget):
             ``[ref]`` tag in a text markup.
     '''
 
-    _font_properties = ('text', 'font_size', 'font_name', 'bold', 'italic',
+    _font_properties = ('text', 'font_size', 'font_name', 'weight',
         'halign', 'valign', 'padding_x', 'padding_y', 'text_size', 'shorten',
         'mipmap', 'markup', 'line_height')
 
@@ -272,7 +272,7 @@ class Label(Widget):
     default to (None, None), meaning no size restriction by default.
     '''
 
-    font_name = StringProperty('DroidSans')
+    font_name = StringProperty('Roboto-Regular')
     '''Filename of the font to use. The path can be absolute or relative.
     Relative paths are resolved by the :func:`~kivy.resources.resource_find`
     function.
@@ -291,7 +291,7 @@ class Label(Widget):
         .. |unicodechar| image:: images/unicode-char.png
 
     :data:`font_name` is a :class:`~kivy.properties.StringProperty`, default to
-    'DroidSans'.
+    'Roboto-Regular'.
     '''
 
     font_size = NumericProperty('15sp')
