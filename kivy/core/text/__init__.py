@@ -23,7 +23,7 @@ from kivy.core import core_select_lib
 from kivy.resources import resource_find
 from kivy.compat import PY2
 
-DEFAULT_FONT = 'Roboto-Regular'
+DEFAULT_FONT = 'Roboto'
 
 FONT_REGULAR = 0
 FONT_ITALIC = 1
@@ -54,8 +54,8 @@ class LabelBase(object):
         `font_name`: str, default to DEFAULT_FONT
             Font name of the text
         `font_weight`: str, default to "regular"
-            Set font variant, e.g. 'bold','italic'
-        `text_size`: tuple, default to (None, None)
+            Set font variant, e.g. 'regular','bold','italic','thin',
+		`text_size`: tuple, default to (None, None)
             Add constraint to render the text (inside a bounding box)
             If no size is given, the label size will be set to the text size.
         `padding`: float, default to None
@@ -88,7 +88,7 @@ class LabelBase(object):
     _texture_1px = None
 
     def __init__(self, text='', font_size=12, font_name=DEFAULT_FONT,
-                 font_weight='Regular', halign='left', valign='bottom',
+                 font_weight='regular', halign='left', valign='bottom',
                  shorten=False, text_size=None, mipmap=False, color=None,
                  line_height=1.0, **kwargs):
 
